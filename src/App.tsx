@@ -42,7 +42,7 @@ function App() {
   return (
     <div className="App">
       <Nav />
-      <div className='min-h-screen pt-16 pb-5 bg-red-100 bg-[url("./assets/bg2.jpg")]'>
+      <div className='min-h-screen pt-16 pb-5 bg-red-100'>
         <Routes>
             <Route path='/' element= {<LandingPage />} />
             <Route path='/login' element = {!user? <Login /> : <Navigate to="/" />} />

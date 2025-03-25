@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { fetchData } from "@/services/api";
 import {
   Card,
@@ -13,14 +13,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 const Landing = () => {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [amountIsValid, setAmountIsValid] = useState(true);
-  const [filteredProducts, setFilteredProducts] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState(""); // Add search query state
-  const enteredAmount = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.user.user);
@@ -32,7 +29,7 @@ const Landing = () => {
         setProducts(data);
         setFilteredProducts(data);
       } catch (err:any) {
-        setError(err);
+
       } finally {
         setLoading(false);
       }
@@ -93,7 +90,6 @@ const Landing = () => {
       };
   
       dispatch(cartActions.add(cartItem));
-      setAmountIsValid(true);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -148,29 +144,7 @@ const Landing = () => {
                   >
                     + Add
                   </Button>
-                  {/* <form
-                    className="form ml-auto"
-                    onSubmit={(event) => submitHandler(event, product)}
-                  >
-                    
-                    <label htmlFor="amount">Amount</label>
-                    <input 
-                      id="amount"
-                      ref={enteredAmount}
-                      type="number" 
-                      step="1"
-                      min="1"   
-                      max="10"
-                      defaultValue="1"   
-                    />
-                    <button
-                      type="submit"
-                      className="text-xl text-red-700 border-2 rounded-full p-1 mt-1 w-28 hover:text-white hover:bg-red-700"
-                    >
-                      
-                    </button>
-                    {!amountIsValid && <p>Please enter a valid amount (1-10).</p>}
-                  </form> */}
+                  
                 </div>
               </CardFooter>
             </Card>

@@ -25,9 +25,8 @@ interface LoginFormValues {
 
 const Login = () => {
   const [pageType, setPageType] = useState<"login" | "register">("login");
-  const [message, setMessage] = useState<string>("");
   const isLogin = pageType === "login";
-  const isRegister = pageType === "register";
+  // const isRegister = pageType === "register";
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -89,122 +88,110 @@ const Login = () => {
       validationSchema={isLogin ? loginSchema : registerSchema}
     >
       {({
-        values,
-        errors,
-        touched,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        resetForm,
-      }) => (
-        <form onSubmit={handleSubmit}>
-          <div className="flex items-center justify-center flex-col gap-4 p-4">
-            <div className="text-2xl">
-              {isLogin ? "Login Now" : "Register Here"}
-            </div>
-            <div className="flex flex-col gap-4 items-center justify-center">
-              {isRegister && (
-                <>
-                  <TextField
-                    label="First Name"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.firstName}
-                    name="firstName"
-                    error={Boolean(touched.firstName) && Boolean(errors.firstName)}
-                    helperText={touched.firstName && errors.firstName}
-                    fullWidth
-                  />
-                  <TextField
-                    label="Last Name"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.lastName}
-                    name="lastName"
-                    error={Boolean(touched.lastName) && Boolean(errors.lastName)}
-                    helperText={touched.lastName && errors.lastName}
-                    fullWidth
-                  />
-                  <TextField
-                    label="Email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.email}
-                    name="email"
-                    error={Boolean(touched.email) && Boolean(errors.email)}
-                    helperText={touched.email && errors.email}
-                    fullWidth
-                  />
-                  <TextField
-                    label="Password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.password}
-                    type="password"
-                    name="password"
-                    error={Boolean(touched.password) && Boolean(errors.password)}
-                    helperText={touched.password && errors.password}
-                    fullWidth
-                  />
-                  <TextField
-                    label="Phone Number"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.phoneNumber}
-                    name="phoneNumber"
-                    error={
-                      Boolean(touched.phoneNumber) && Boolean(errors.phoneNumber)
-                    }
-                    helperText={touched.phoneNumber && errors.phoneNumber}
-                    fullWidth
-                  />
-                </>
-              )}
-              {isLogin && (
-                <>
-                  <TextField
-                    label="Email"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.email}
-                    name="email"
-                    error={Boolean(touched.email) && Boolean(errors.email)}
-                    helperText={touched.email && errors.email}
-                    fullWidth
-                  />
-                  <TextField
-                    label="Password"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    value={values.password}
-                    type="password"
-                    name="password"
-                    error={Boolean(touched.password) && Boolean(errors.password)}
-                    helperText={touched.password && errors.password}
-                    fullWidth
-                  />
-                </>
-              )}
-              <div className="flex justify-center items-center">
-                <Button type="submit">{isLogin ? "Login" : "Register"}</Button>
-              </div>
-              <div
-                className="flex justify-center items-center"
-                onClick={() => {
-                  setPageType(isLogin ? "register" : "login");
-                  resetForm();
-                }}
-              >
-                <Button variant="ghost">
-                  {isLogin
-                    ? "Don't have an account? Register Here"
-                    : "Already have an account? Login Now"}
-                </Button>
-              </div>
-            </div>
+  values,
+  errors,
+  touched,
+  handleBlur,
+  handleChange,
+  handleSubmit,
+  resetForm,
+}) => {
+  const isRegisterForm = pageType === "register";
+  const isLoginForm = pageType === "login";
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="flex items-center justify-center flex-col gap-4 p-4">
+        <div className="text-2xl">
+          {isLoginForm ? "Login Now" : "Register Here"}
+        </div>
+        <div className="flex flex-col gap-4 items-center justify-center">
+          {isRegisterForm && (
+            <>
+              <TextField
+                label="First Name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={(values as RegisterFormValues).firstName}
+                name="firstName"
+                error={
+                  Boolean((touched as any).firstName) &&
+                  Boolean((errors as any).firstName)
+                }
+                helperText={(touched as any).firstName && (errors as any).firstName}
+                fullWidth
+              />
+              <TextField
+                label="Last Name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={(values as RegisterFormValues).lastName}
+                name="lastName"
+                error={
+                  Boolean((touched as any).lastName) &&
+                  Boolean((errors as any).lastName)
+                }
+                helperText={(touched as any).lastName && (errors as any).lastName}
+                fullWidth
+              />
+              <TextField
+                label="Phone Number"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={(values as RegisterFormValues).phoneNumber}
+                name="phoneNumber"
+                error={
+                  Boolean((touched as any).phoneNumber) &&
+                  Boolean((errors as any).phoneNumber)
+                }
+                helperText={(touched as any).phoneNumber && (errors as any).phoneNumber}
+                fullWidth
+              />
+            </>
+          )}
+          {/* Shared fields */}
+          <TextField
+            label="Email"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={values.email}
+            name="email"
+            error={Boolean(touched.email) && Boolean(errors.email)}
+            helperText={touched.email && errors.email}
+            fullWidth
+          />
+          <TextField
+            label="Password"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={values.password}
+            type="password"
+            name="password"
+            error={Boolean(touched.password) && Boolean(errors.password)}
+            helperText={touched.password && errors.password}
+            fullWidth
+          />
+
+          <div className="flex justify-center items-center">
+            <Button type="submit">{isLoginForm ? "Login" : "Register"}</Button>
           </div>
-        </form>
-      )}
+          <div
+            className="flex justify-center items-center"
+            onClick={() => {
+              setPageType(isLoginForm ? "register" : "login");
+              resetForm();
+            }}
+          >
+            <Button variant="ghost">
+              {isLoginForm
+                ? "Don't have an account? Register Here"
+                : "Already have an account? Login Now"}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </form>
+      )}}
     </Formik>
   );
 };
